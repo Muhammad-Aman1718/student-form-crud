@@ -1,6 +1,6 @@
 // src/routes/userRoutes.ts
 import { Router } from "express";
-import { prisma } from "./prisma";
+import { prisma } from "../config/prisma";
 
 const router = Router();
 
@@ -13,6 +13,17 @@ router.get("/", async (req, res) => {
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch users" });
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    const newUser = await prisma.student.create({
+      data: req.body,
+    });
+    res.status(201).json(newUser);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create user" });
   }
 });
 

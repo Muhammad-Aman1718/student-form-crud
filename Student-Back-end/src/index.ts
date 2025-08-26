@@ -1,7 +1,7 @@
 // src/index.ts
 import express from "express";
 import cors from "cors";
-import userRoutes from "./config/user";
+import userRoutes from "./routes/user";
 
 const app = express();
 const PORT = 5000;
@@ -10,6 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
+  res.send("this");
   res.json({
     message: "Server is running successfully!",
     status: "OK",

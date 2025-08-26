@@ -15,10 +15,21 @@ datasource db {
 }
 
 model Student {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  age       String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(uuid())
+  name         String
+  fatherName   String
+  age          String
+  dateOfBirth  DateTime
+  gender       String
+  grade        String
+  classSection String
+  rollNumber   String   @unique
+  gpa          String
+  email        String   @unique
+  phoneNumber  String
+  status       String
+  address      String
+  subjects     String[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
