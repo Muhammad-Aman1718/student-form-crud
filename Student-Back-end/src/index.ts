@@ -1,7 +1,7 @@
 // src/index.ts
 import express from "express";
 import cors from "cors";
-import userRoutes from "./routes/userRoutes";
+import userRoutes from "./config/user";
 
 const app = express();
 const PORT = 5000;
