@@ -27,8 +27,8 @@ function App() {
     handleInputChange,
     handleSubjectChange,
     handleSubmit,
-    // handleEdit,
-    // handleDelete,
+    handleEdit,
+    handleDelete,
     setSearchTerm,
     setShowForm,
     setEditingId,
@@ -363,8 +363,7 @@ function App() {
                   onClick={handleSubmit}
                   className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors duration-200"
                 >
-                  Add Student
-                  {/* {editingId ? "Update Student" : "Add Student"} */}
+                  {editingId ? "Update Student" : "Add Student"}
                 </button>
               </div>
             </div>
@@ -458,13 +457,13 @@ function App() {
                     <td className="px-6 py-4">
                       <div className="flex space-x-2">
                         <button
-                          // onClick={() => handleEdit(student)}
+                          onClick={() => handleEdit(student.id ?? "")}
                           className="p-2 text-indigo-600 hover:bg-indigo-100 rounded-lg transition-colors duration-200"
                         >
                           <Edit2 className="h-4 w-4" />
                         </button>
                         <button
-                          // onClick={() => handleDelete(student.id)}
+                          onClick={() => handleDelete(student.id ?? "")}
                           className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-200"
                         >
                           <Trash2 className="h-4 w-4" />

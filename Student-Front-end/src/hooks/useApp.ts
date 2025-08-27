@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import type { Student } from "../types/types";
 import { useAppDispatch } from "./useAppDispatch";
 import { useAppSelector } from "./useAppSelector";
-import { fetchStudents, postStudents } from "../store/slices/student";
+import {
+  deleteStudent,
+  fetchStudents,
+  postStudents,
+  updateStudent,
+} from "../store/slices/student";
 
 const useApp = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +32,7 @@ const useApp = () => {
     subjects: [],
   });
 
-  const [editingId, setEditingId] = useState(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
 
@@ -59,54 +64,43 @@ const useApp = () => {
     }));
   };
 
-  // const handleSubmit = () => {
-  //   if (editingId) {
-  //     setStudents((prev) =>
-  //       prev.map((student) =>
-  //         student.id === editingId ? { ...formData, id: editingId } : student
-  //       )
-  //     );
-  //     setEditingId(null);
-  //   } else {
-  //     const newStudent = {
-  //       ...formData,
-  //     };
-  //     setStudents((prev) => [...prev, newStudent]);
-  //   }
-
-  //   setFormData({
-  //     name: "",
-  //     fatherName: "",
-  //     age: "",
-  //     dateOfBirth: "",
-  //     gender: "",
-  //     grade: "",
-  //     classSection: "",
-  //     gpa: "",
-  //     email: "",
-  //     rollNumber: "",
-  //     phoneNumber: "",
-  //     status: "Active",
-  //     address: "",
-  //     subjects: [],
-  //   });
-  //   setShowForm(false);
-  // };
-
-  // const handleEdit = (student: Student) => {
-  //   setFormData(student);
-  //   setEditingId(student.id);
-  //   setShowForm(true);
-  // };
-
-  // const handleDelete = (id: string) => {
-  //   setStudents((prev) => prev.filter((student) => student.id !== id));
-  // };
-
   const handleSubmit = () => {
-    console.log("Submitting form data:", formData);
+    if (editingId) {
+      dispatch(updateStudent(formData));
+      setEditingId(null);
+    } else {
+      dispatch(postStudents(formData));
+    }
 
-    dispatch(postStudents(formData));
+    setFormData({
+      name: "",
+      fatherName: "",
+      age: "",
+      dateOfBirth: "",
+      gender: "",
+      grade: "",
+      classSection: "",
+      gpa: "",
+      email: "",
+      rollNumber: "",
+      phoneNumber: "",
+      status: "Active",
+      address: "",
+      subjects: [],
+    });
+    setShowForm(false);
+  };
+
+  const handleEdit = (id: string) => {
+    setFormData(
+      students.student.find((student) => student.id === id) || formData
+    );
+    setEditingId(id);
+    setShowForm(true);
+  };
+
+  const handleDelete = (id: string) => {
+    dispatch(deleteStudent(id));
   };
 
   const filteredStudents = students.student.filter(
@@ -126,9 +120,8 @@ const useApp = () => {
     handleInputChange,
     handleSubjectChange,
     handleSubmit,
-    // handleSubmit,
-    // handleEdit,
-    // handleDelete,
+    handleEdit,
+    handleDelete,
     setSearchTerm,
     setShowForm,
     setEditingId,

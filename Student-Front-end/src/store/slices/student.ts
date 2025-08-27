@@ -37,6 +37,39 @@ export const postStudents = createAsyncThunk(
   }
 );
 
+export const updateStudent = createAsyncThunk(
+  "student/updateStudent",
+  async (studentData: Student) => {
+    try {
+      const response = await AxiosIntance.put(
+        `/students/${studentData.id}`,
+        studentData
+      );
+      console.log("this is slice response ====> :", response);
+
+      return response.data;
+    } catch (error) {
+      console.error("Error updating students:", error);
+      throw error;
+    }
+  }
+);
+
+export const deleteStudent = createAsyncThunk(
+  "student/deleteStudent",
+  async (id: string) => {
+    try {
+      const response = await AxiosIntance.delete(`/students/${id}`);
+      console.log("this is delete response =====> ", response);
+
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting student:", error);
+      throw error;
+    }
+  }
+);
+
 const studentSlice = createSlice({
   name: "student",
   initialState,
