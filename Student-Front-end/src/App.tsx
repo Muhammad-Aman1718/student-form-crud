@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import useApp from "./hooks/useApp";
 import { subjectOptions } from "./constant/data";
+import type { Student } from "./types/types";
 
 function App() {
   const {
@@ -26,8 +27,8 @@ function App() {
     handleInputChange,
     handleSubjectChange,
     handleSubmit,
-    handleEdit,
-    handleDelete,
+    // handleEdit,
+    // handleDelete,
     setSearchTerm,
     setShowForm,
     setEditingId,
@@ -362,7 +363,8 @@ function App() {
                   onClick={handleSubmit}
                   className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors duration-200"
                 >
-                  {editingId ? "Update Student" : "Add Student"}
+                  Add Student
+                  {/* {editingId ? "Update Student" : "Add Student"} */}
                 </button>
               </div>
             </div>
@@ -399,7 +401,7 @@ function App() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredStudents.map((student) => (
+                {filteredStudents.map((student: Student) => (
                   <tr
                     key={student.id}
                     className="hover:bg-gray-50 transition-colors duration-200"
@@ -420,7 +422,7 @@ function App() {
                     <td className="px-6 py-4">
                       <div className="space-y-1">
                         <p className="font-medium text-gray-900">
-                          {student.grade} - Section {student.class}
+                          {student.grade} - Section {student.classSection}
                         </p>
                         <p className="text-sm text-gray-600">
                           Roll: {student.rollNumber}
@@ -435,7 +437,9 @@ function App() {
                     <td className="px-6 py-4">
                       <div className="space-y-1">
                         <p className="text-sm text-gray-900">{student.email}</p>
-                        <p className="text-sm text-gray-600">{student.phone}</p>
+                        <p className="text-sm text-gray-600">
+                          {student.phoneNumber}
+                        </p>
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -454,13 +458,13 @@ function App() {
                     <td className="px-6 py-4">
                       <div className="flex space-x-2">
                         <button
-                          onClick={() => handleEdit(student)}
+                          // onClick={() => handleEdit(student)}
                           className="p-2 text-indigo-600 hover:bg-indigo-100 rounded-lg transition-colors duration-200"
                         >
                           <Edit2 className="h-4 w-4" />
                         </button>
                         <button
-                          onClick={() => handleDelete(student.id)}
+                          // onClick={() => handleDelete(student.id)}
                           className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-200"
                         >
                           <Trash2 className="h-4 w-4" />

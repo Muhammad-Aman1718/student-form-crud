@@ -1,29 +1,16 @@
-import { useState } from "react";
-import { Student } from "../constant/data";
+import { useState, useEffect } from "react";
+import type { Student } from "../types/types";
+import { useAppDispatch } from "./useAppDispatch";
+import { useAppSelector } from "./useAppSelector";
+import { fetchStudents, postStudents } from "../store/slices/student";
 
 const useApp = () => {
-  const [students, setStudents] = useState([
-    {
-      id: "1",
-      name: "Ahmed Ali",
-      fatherName: "Muhammad Ali",
-      age: "16",
-      dateOfBirth: "2007-03-15",
-      gender: "Male",
-      grade: "10th",
-      classSection: "A",
-      gpa: "3.8",
-      email: "ahmed.ali@email.com",
-      rollNumber: "2023-001",
-      phoneNumber: "03001234567",
-      status: "Active",
-      address: "House 123, Street 45, Lahore",
-      subjects: ["Mathematics", "Physics", "Chemistry"],
-    },
-  ]);
+  const dispatch = useAppDispatch();
+
+  const students = useAppSelector((state) => state.student);
+  console.log("this is students===> ", students);
 
   const [formData, setFormData] = useState<Student>({
-    // id: "",
     name: "",
     fatherName: "",
     age: "",
@@ -44,13 +31,18 @@ const useApp = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
 
+  useEffect(() => {
+    try {
+      dispatch(fetchStudents());
+    } catch (error) {}
+  }, []);
+
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
     >
   ) => {
     const { name, value } = e.target;
-    console.log(name, value);
 
     setFormData((prev) => ({
       ...prev,
@@ -67,54 +59,57 @@ const useApp = () => {
     }));
   };
 
+  // const handleSubmit = () => {
+  //   if (editingId) {
+  //     setStudents((prev) =>
+  //       prev.map((student) =>
+  //         student.id === editingId ? { ...formData, id: editingId } : student
+  //       )
+  //     );
+  //     setEditingId(null);
+  //   } else {
+  //     const newStudent = {
+  //       ...formData,
+  //     };
+  //     setStudents((prev) => [...prev, newStudent]);
+  //   }
+
+  //   setFormData({
+  //     name: "",
+  //     fatherName: "",
+  //     age: "",
+  //     dateOfBirth: "",
+  //     gender: "",
+  //     grade: "",
+  //     classSection: "",
+  //     gpa: "",
+  //     email: "",
+  //     rollNumber: "",
+  //     phoneNumber: "",
+  //     status: "Active",
+  //     address: "",
+  //     subjects: [],
+  //   });
+  //   setShowForm(false);
+  // };
+
+  // const handleEdit = (student: Student) => {
+  //   setFormData(student);
+  //   setEditingId(student.id);
+  //   setShowForm(true);
+  // };
+
+  // const handleDelete = (id: string) => {
+  //   setStudents((prev) => prev.filter((student) => student.id !== id));
+  // };
+
   const handleSubmit = () => {
-    if (editingId) {
-      setStudents((prev) =>
-        prev.map((student) =>
-          student.id === editingId ? { ...formData, id: editingId } : student
-        )
-      );
-      setEditingId(null);
-    } else {
-      const newStudent = {
-        ...formData,
-        id: students.length + 1,
-        age: parseInt(formData.age) || 0,
-        gpa: parseFloat(formData.gpa) || 0,
-      };
-      setStudents((prev) => [...prev, newStudent]);
-    }
+    console.log("Submitting form data:", formData);
 
-    setFormData({
-      name: "",
-      fatherName: "",
-      age: "",
-      dateOfBirth: "",
-      gender: "",
-      grade: "",
-      classSection: "",
-      gpa: "",
-      email: "",
-      rollNumber: "",
-      phoneNumber: "",
-      status: "Active",
-      address: "",
-      subjects: [],
-    });
-    setShowForm(false);
+    dispatch(postStudents(formData));
   };
 
-  const handleEdit = (student: Student) => {
-    setFormData(student);
-    setEditingId(student.id);
-    setShowForm(true);
-  };
-
-  const handleDelete = (id: number) => {
-    setStudents((prev) => prev.filter((student) => student.id !== id));
-  };
-
-  const filteredStudents = students.filter(
+  const filteredStudents = students.student.filter(
     (student) =>
       student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -131,8 +126,9 @@ const useApp = () => {
     handleInputChange,
     handleSubjectChange,
     handleSubmit,
-    handleEdit,
-    handleDelete,
+    // handleSubmit,
+    // handleEdit,
+    // handleDelete,
     setSearchTerm,
     setShowForm,
     setEditingId,

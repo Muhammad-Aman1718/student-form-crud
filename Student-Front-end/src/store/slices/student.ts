@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { StudentState } from "../../constant/data";
 import AxiosIntance from "../../utils/AxiosIntance";
+import type { Student, StudentState } from "../../types/types";
 
 const initialState: StudentState = {
   student: [],
@@ -11,10 +11,29 @@ const initialState: StudentState = {
 export const fetchStudents = createAsyncThunk(
   "student/fetchStudents",
   async () => {
-    const response = await AxiosIntance.get("/students");
-    console.log("this is slice response ====> :", response);
+    try {
+      const response = await AxiosIntance.get("/students");
+      console.log("this is slice response ====> :", response);
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching students:", error);
+      throw error;
+    }
+  }
+);
+export const postStudents = createAsyncThunk(
+  "student/postStudents",
+  async (studentData: Student) => {
+    try {
+      const response = await AxiosIntance.post("/students", studentData);
+      console.log("this is slice response ====> :", response);
+
+      return response.data;
+    } catch (error) {
+      console.error("Error posting students:", error);
+      throw error;
+    }
   }
 );
 

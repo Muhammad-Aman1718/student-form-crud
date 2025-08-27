@@ -19,7 +19,7 @@ model Student {
   name         String
   fatherName   String
   age          String
-  dateOfBirth  DateTime
+  dateOfBirth  String
   gender       String
   grade        String
   classSection String
