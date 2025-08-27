@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import AxiosIntance from "../../utils/AxiosIntance";
 import type { Student, StudentState } from "../../types/types";
+import { showToast } from "../../utils/showToast";
+import { AxiosError } from "axios";
 
 const initialState: StudentState = {
   student: [],
@@ -13,11 +15,10 @@ export const fetchStudents = createAsyncThunk(
   async () => {
     try {
       const response = await AxiosIntance.get("/students");
-      console.log("this is slice response ====> :", response);
-
       return response.data;
     } catch (error) {
-      console.error("Error fetching students:", error);
+      const errorAxios = error as AxiosError;
+      showToast("error", `Failed to fetch students ${errorAxios.message}`);
       throw error;
     }
   }
@@ -27,11 +28,10 @@ export const postStudents = createAsyncThunk(
   async (studentData: Student) => {
     try {
       const response = await AxiosIntance.post("/students", studentData);
-      console.log("this is slice response ====> :", response);
-
       return response.data;
     } catch (error) {
-      console.error("Error posting students:", error);
+      const errorAxios = error as AxiosError;
+      showToast("error", `Failed to post students ${errorAxios.message}`);
       throw error;
     }
   }
@@ -45,11 +45,10 @@ export const updateStudent = createAsyncThunk(
         `/students/${studentData.id}`,
         studentData
       );
-      console.log("this is slice response ====> :", response);
-
       return response.data;
     } catch (error) {
-      console.error("Error updating students:", error);
+      const errorAxios = error as AxiosError;
+      showToast("error", `Failed to update students ${errorAxios.message}`);
       throw error;
     }
   }
@@ -60,11 +59,10 @@ export const deleteStudent = createAsyncThunk(
   async (id: string) => {
     try {
       const response = await AxiosIntance.delete(`/students/${id}`);
-      console.log("this is delete response =====> ", response);
-
       return response.data;
     } catch (error) {
-      console.error("Error deleting student:", error);
+      const errorAxios = error as AxiosError;
+      showToast("error", `Failed to delete student ${errorAxios.message}`);
       throw error;
     }
   }

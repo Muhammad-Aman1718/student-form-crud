@@ -1,7 +1,6 @@
 // src/routes/userRoutes.ts
 import { Router } from "express";
 import { prisma } from "../config/prisma";
-import { log } from "console";
 
 const router = Router();
 
@@ -9,8 +8,6 @@ const router = Router();
 router.get("/", async (req, res) => {
   try {
     const students = await prisma.student.findMany();
-    console.log("this is students  --->", students);
-
     res.status(200).json(students);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch students" });
@@ -19,12 +16,10 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    console.log("this is post api", req.body);
 
     const newStudent = await prisma.student.create({
       data: req.body,
     });
-    console.log("this is req.body  --->", req.body);
 
     res.status(201).json(newStudent);
   } catch (error) {
@@ -34,17 +29,14 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    console.log("this is params==============>", req);
 
     const { id } = req.params;
-    console.log("this is id  --->", id);
 
     const updatedStudent = await prisma.student.update({
       where: { id },
 
       data: req.body,
     });
-    console.log("this is updatedStudent  --->", updatedStudent);
 
     res.json(updatedStudent);
   } catch (error) {

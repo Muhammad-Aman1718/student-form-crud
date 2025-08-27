@@ -8,13 +8,16 @@ import {
   postStudents,
   updateStudent,
 } from "../store/slices/student";
+import { showToast } from "../utils/showToast";
 
 const useApp = () => {
   const dispatch = useAppDispatch();
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showForm, setShowForm] = useState(false);
+  const [reload, setReload] = useState(false);
 
   const students = useAppSelector((state) => state.student);
-  console.log("this is students===> ", students);
-
   const [formData, setFormData] = useState<Student>({
     name: "",
     fatherName: "",
@@ -32,15 +35,11 @@ const useApp = () => {
     subjects: [],
   });
 
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [showForm, setShowForm] = useState(false);
-
   useEffect(() => {
     try {
       dispatch(fetchStudents());
     } catch (error) {}
-  }, []);
+  }, [reload, dispatch]);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -64,12 +63,16 @@ const useApp = () => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (editingId) {
-      dispatch(updateStudent(formData));
+      await dispatch(updateStudent(formData));
+      showToast("success", "Student updated successfully");
       setEditingId(null);
+      setReload((prev) => !prev);
     } else {
-      dispatch(postStudents(formData));
+      await dispatch(postStudents(formData));
+      showToast("success", "Student added successfully");
+      setReload((prev) => !prev);
     }
 
     setFormData({
@@ -97,10 +100,13 @@ const useApp = () => {
     );
     setEditingId(id);
     setShowForm(true);
+    setReload((prev) => !prev);
   };
 
   const handleDelete = (id: string) => {
     dispatch(deleteStudent(id));
+    setReload((prev) => !prev);
+    showToast("success", "Student deleted successfully");
   };
 
   const filteredStudents = students.student.filter(

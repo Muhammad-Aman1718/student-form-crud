@@ -28,6 +28,4 @@ app.use("/api/students", studentRoutes);
 //   });
 // });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+app.listen(PORT, () => {});
