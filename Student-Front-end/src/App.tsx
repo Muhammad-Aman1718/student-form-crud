@@ -61,17 +61,17 @@ function App() {
                   name: "",
                   fatherName: "",
                   age: "",
-                  grade: "",
-                  email: "",
-                  phone: "",
-                  address: "",
-                  gender: "",
                   dateOfBirth: "",
-                  class: "",
-                  rollNumber: "",
-                  subjects: [],
+                  gender: "",
+                  grade: "",
+                  classSection: "",
                   gpa: "",
+                  email: "",
+                  rollNumber: "",
+                  phoneNumber: "",
                   status: "Active",
+                  address: "",
+                  subjects: [],
                 });
               }}
               className="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
@@ -215,8 +215,8 @@ function App() {
                     Class Section *
                   </label>
                   <select
-                    name="class"
-                    value={formData.class}
+                    name="classSection"
+                    value={formData.classSection}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   >
@@ -284,8 +284,8 @@ function App() {
                   </label>
                   <input
                     type="tel"
-                    name="phone"
-                    value={formData.phone}
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
                     onChange={handleInputChange}
                     placeholder="03001234567"
                     className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"

@@ -1,48 +1,54 @@
 import { useState } from "react";
+import { Student } from "../constant/data";
 
 const useApp = () => {
   const [students, setStudents] = useState([
     {
-      id: 1,
+      id: "1",
       name: "Ahmed Ali",
       fatherName: "Muhammad Ali",
-      age: 16,
-      grade: "10th",
-      email: "ahmed.ali@email.com",
-      phone: "03001234567",
-      address: "House 123, Street 45, Lahore",
-      gender: "Male",
+      age: "16",
       dateOfBirth: "2007-03-15",
-      class: "A",
+      gender: "Male",
+      grade: "10th",
+      classSection: "A",
+      gpa: "3.8",
+      email: "ahmed.ali@email.com",
       rollNumber: "2023-001",
-      subjects: ["Mathematics", "Physics", "Chemistry"],
-      gpa: 3.8,
+      phoneNumber: "03001234567",
       status: "Active",
+      address: "House 123, Street 45, Lahore",
+      subjects: ["Mathematics", "Physics", "Chemistry"],
     },
   ]);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Student>({
+    // id: "",
     name: "",
     fatherName: "",
     age: "",
-    grade: "",
-    email: "",
-    phone: "",
-    address: "",
-    gender: "",
     dateOfBirth: "",
-    class: "",
-    rollNumber: "",
-    subjects: [],
+    gender: "",
+    grade: "",
+    classSection: "",
     gpa: "",
+    email: "",
+    rollNumber: "",
+    phoneNumber: "",
     status: "Active",
+    address: "",
+    subjects: [],
   });
 
   const [editingId, setEditingId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = e.target;
     console.log(name, value);
 
@@ -52,11 +58,11 @@ const useApp = () => {
     }));
   };
 
-  const handleSubjectChange = (subject) => {
+  const handleSubjectChange = (subject: string) => {
     setFormData((prev) => ({
       ...prev,
       subjects: prev.subjects.includes(subject)
-        ? prev.subjects.filter((s) => s !== subject)
+        ? prev.subjects.filter((s: string) => s !== subject)
         : [...prev.subjects, subject],
     }));
   };
@@ -83,28 +89,28 @@ const useApp = () => {
       name: "",
       fatherName: "",
       age: "",
-      grade: "",
-      email: "",
-      phone: "",
-      address: "",
-      gender: "",
       dateOfBirth: "",
-      class: "",
-      rollNumber: "",
-      subjects: [],
+      gender: "",
+      grade: "",
+      classSection: "",
       gpa: "",
+      email: "",
+      rollNumber: "",
+      phoneNumber: "",
       status: "Active",
+      address: "",
+      subjects: [],
     });
     setShowForm(false);
   };
 
-  const handleEdit = (student) => {
+  const handleEdit = (student: Student) => {
     setFormData(student);
     setEditingId(student.id);
     setShowForm(true);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (id: number) => {
     setStudents((prev) => prev.filter((student) => student.id !== id));
   };
 

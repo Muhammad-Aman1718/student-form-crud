@@ -18,9 +18,13 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
+    console.log("this is post api", req.body);
+
     const newStudent = await prisma.student.create({
       data: req.body,
     });
+    console.log("this is req.body  --->", req.body);
+
     res.status(201).json(newStudent);
   } catch (error) {
     res.status(500).json({ error: "Failed to create student" });
