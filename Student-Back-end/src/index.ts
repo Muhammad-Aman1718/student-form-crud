@@ -1,7 +1,7 @@
 // src/index.ts
 import express from "express";
 import cors from "cors";
-import userRoutes from "./routes/user";
+import studentRoutes from "./routes/student";
 
 const app = express();
 const PORT = 5000;
@@ -17,8 +17,8 @@ app.get("/", (req, res) => {
   });
 });
 
-// User routes ko use karna - '/api/users' base path ke saath
-app.use("/api/users", userRoutes);
+// User routes ko use karna - '/api/students' base path ke saath
+app.use("/api/students", studentRoutes);
 
 // 404 handler - agar koi route nahi mila
 // app.use("*", (req, res) => {
