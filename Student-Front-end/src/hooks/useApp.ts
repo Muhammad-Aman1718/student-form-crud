@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
-import type { Student } from "../types/types";
 import { useAppDispatch } from "./useAppDispatch";
 import { useAppSelector } from "./useAppSelector";
+import { showToast } from "../utils/showToast";
+import type { Student } from "../types/types";
 import {
   deleteStudent,
   fetchStudents,
   postStudents,
   updateStudent,
 } from "../store/slices/student";
-import { showToast } from "../utils/showToast";
 
 const useApp = () => {
   const dispatch = useAppDispatch();
@@ -64,34 +64,67 @@ const useApp = () => {
   };
 
   const handleSubmit = async () => {
-    if (editingId) {
-      await dispatch(updateStudent(formData));
-      showToast("success", "Student updated successfully");
-      setEditingId(null);
-      setReload((prev) => !prev);
-    } else {
-      await dispatch(postStudents(formData));
-      showToast("success", "Student added successfully");
-      setReload((prev) => !prev);
+    // check empty fields
+    const requiredFields = [
+      "name",
+      "fatherName",
+      "age",
+      "dateOfBirth",
+      "gender",
+      "grade",
+      "classSection",
+      "gpa",
+      "email",
+      "rollNumber",
+      "phoneNumber",
+      "status",
+      "address",
+    ];
+
+    // find empty values
+    const emptyField = requiredFields.find(
+      (field) => !formData[field as keyof typeof formData]
+    );
+
+    // agar koi empty field milti hai
+    if (emptyField) {
+      showToast("error", "Please fill all required fields before submitting");
+      return; // dispatch ruk jaye
     }
 
-    setFormData({
-      name: "",
-      fatherName: "",
-      age: "",
-      dateOfBirth: "",
-      gender: "",
-      grade: "",
-      classSection: "",
-      gpa: "",
-      email: "",
-      rollNumber: "",
-      phoneNumber: "",
-      status: "Active",
-      address: "",
-      subjects: [],
-    });
-    setShowForm(false);
+    try {
+      if (editingId) {
+        await dispatch(updateStudent(formData));
+        showToast("success", "Student updated successfully");
+        setEditingId(null);
+        setReload((prev) => !prev);
+      } else {
+        await dispatch(postStudents(formData));
+        showToast("success", "Student added successfully");
+        setReload((prev) => !prev);
+      }
+
+      // reset form
+      setFormData({
+        name: "",
+        fatherName: "",
+        age: "",
+        dateOfBirth: "",
+        gender: "",
+        grade: "",
+        classSection: "",
+        gpa: "",
+        email: "",
+        rollNumber: "",
+        phoneNumber: "",
+        status: "Active",
+        address: "",
+        subjects: [],
+      });
+      setShowForm(false);
+    } catch (error) {
+      showToast("error", "Something went wrong");
+    }
   };
 
   const handleEdit = (id: string) => {

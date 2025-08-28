@@ -36,20 +36,20 @@ function App() {
   } = useApp();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6 max-sm:p-3">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8  max-md:p-4 ">
+          <div className="flex items-center justify-between mb-6 max-sm:flex-col   ">
+            <div className="flex items-center space-x-4 max-md:mb-4 max-sm:items-start  ">
               <div className="bg-indigo-600 p-3 rounded-full">
                 <GraduationCap className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-800">
+                <h1 className="text-3xl font-bold text-gray-800 max-md:text-[22px] ">
                   Student Management System
                 </h1>
-                <p className="text-gray-600 mt-1">
+                <p className="text-gray-600 mt-1 max-md:text-sm ">
                   Manage student records efficiently
                 </p>
               </div>
@@ -97,12 +97,12 @@ function App() {
 
         {/* Student Form */}
         {showForm && (
-          <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+          <div className="bg-white rounded-2xl shadow-xl p-8 mb-8  max-md:p-4 ">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">
               {editingId ? "Edit Student" : "Add New Student"}
             </h2>
 
-            <div className="space-y-6">
+            <form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Personal Information */}
                 <div className="space-y-2">
@@ -111,6 +111,7 @@ function App() {
                     <span>Student Name *</span>
                   </label>
                   <input
+                    required
                     type="text"
                     name="name"
                     value={formData.name}
@@ -126,6 +127,7 @@ function App() {
                     <span>Father's Name *</span>
                   </label>
                   <input
+                    required
                     type="text"
                     name="fatherName"
                     value={formData.fatherName}
@@ -141,6 +143,7 @@ function App() {
                     <span>Age *</span>
                   </label>
                   <input
+                    required
                     type="number"
                     name="age"
                     value={formData.age}
@@ -158,6 +161,7 @@ function App() {
                     <span>Date of Birth *</span>
                   </label>
                   <input
+                    required
                     type="date"
                     name="dateOfBirth"
                     value={formData.dateOfBirth}
@@ -171,6 +175,7 @@ function App() {
                     Gender *
                   </label>
                   <select
+                    required
                     name="gender"
                     value={formData.gender}
                     onChange={handleInputChange}
@@ -190,6 +195,7 @@ function App() {
                     <span>Grade *</span>
                   </label>
                   <select
+                    required
                     name="grade"
                     value={formData.grade}
                     onChange={handleInputChange}
@@ -216,6 +222,7 @@ function App() {
                     Class Section *
                   </label>
                   <select
+                    required
                     name="classSection"
                     value={formData.classSection}
                     onChange={handleInputChange}
@@ -235,6 +242,7 @@ function App() {
                     <span>Roll Number *</span>
                   </label>
                   <input
+                    required
                     type="text"
                     name="rollNumber"
                     value={formData.rollNumber}
@@ -250,6 +258,7 @@ function App() {
                     <span>GPA</span>
                   </label>
                   <input
+                    required
                     type="number"
                     name="gpa"
                     value={formData.gpa}
@@ -269,6 +278,7 @@ function App() {
                     <span>Email *</span>
                   </label>
                   <input
+                    required
                     type="email"
                     name="email"
                     value={formData.email}
@@ -284,6 +294,7 @@ function App() {
                     <span>Phone *</span>
                   </label>
                   <input
+                    required
                     type="tel"
                     name="phoneNumber"
                     value={formData.phoneNumber}
@@ -298,6 +309,7 @@ function App() {
                     Status
                   </label>
                   <select
+                    required
                     name="status"
                     value={formData.status}
                     onChange={handleInputChange}
@@ -317,6 +329,7 @@ function App() {
                   <span>Address</span>
                 </label>
                 <textarea
+                  required
                   name="address"
                   value={formData.address}
                   onChange={handleInputChange}
@@ -338,6 +351,7 @@ function App() {
                       className="flex items-center space-x-2 cursor-pointer"
                     >
                       <input
+                        required
                         type="checkbox"
                         checked={formData.subjects.includes(subject)}
                         onChange={() => handleSubjectChange(subject)}
@@ -359,14 +373,14 @@ function App() {
                   Cancel
                 </button>
                 <button
-                  type="button"
+                  type="submit"
                   onClick={handleSubmit}
                   className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors duration-200"
                 >
                   {editingId ? "Update Student" : "Add Student"}
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         )}
 
